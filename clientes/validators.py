@@ -1,14 +1,12 @@
 import re
 
+from validate_docbr import CPF
+
 
 class ClienteValidators:
     @staticmethod
-    def cpf_numeric(cpf):
-        return cpf.isdigit()
-
-    @staticmethod
-    def cpf_valid(cpf):
-        return len(cpf) >= 11
+    def cpf_valid(numero_cpf):
+        return CPF().validate(numero_cpf)
 
     @staticmethod
     def nome_valid(nome):

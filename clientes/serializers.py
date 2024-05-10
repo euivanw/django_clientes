@@ -10,14 +10,9 @@ class ClienteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, attrs):
-        if not ClienteValidators.cpf_numeric(attrs['cpf']):
-            raise serializers.ValidationError({
-                'cpf': 'O CPF só pode conter números.'
-            })
-
         if not ClienteValidators.cpf_valid(attrs['cpf']):
             raise serializers.ValidationError({
-                'cpf': 'O CPF deve conter 11 dígitos.'
+                'cpf': 'O CPF informado não é valido.'
             })
 
         if not ClienteValidators.nome_valid(attrs['nome']):
