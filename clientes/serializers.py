@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from clientes.models import Cliente
+from clientes.validators import ClienteValidators
 
 
 class ClienteSerializer(serializers.ModelSerializer):
@@ -8,24 +9,40 @@ class ClienteSerializer(serializers.ModelSerializer):
         model = Cliente
         fields = '__all__'
 
-    def validate_cpf(self, cpf):
-        if len(cpf) != 11:
-            raise serializers.ValidationError('O CPF deve conter 11 dígitos.')
-        return cpf
+    def validate(self, attrs):
+        if not ClienteValidators.cpf_numeric(attrs['cpf']):
+            raise serializers.ValidationError({
+                'cpf': 'O CPF só pode conter números.'
+            })
 
-    def validate_nome(self, nome):
-        if not nome.isalpha():
-            raise serializers.ValidationError('O nome não deve incluir números.')
-        return nome
+        if not ClienteValidators.cpf_valid(attrs['cpf']):
+            raise serializers.ValidationError({
+                'cpf': 'O CPF deve conter 11 dígitos.'
+            })
 
-    def validate_rg(self, rg):
-        if len(rg) != 11:
-            raise serializers.ValidationError('O RG deve conter 11 dígitos.')
-        return rg
+        if not ClienteValidators.nome_valid(attrs['nome']):
+            raise serializers.ValidationError({
+                'nome': 'O nome não deve incluir números.'
+            })
 
-    def validate_celular(self, celular):
-        if not celular.isdigit():
-            raise serializers.ValidationError('O celular só pode conter números.')
-        if len(celular) != 11:
-            raise serializers.ValidationError('O celular deve conter 11 dígitos.')
-        return celular
+        if not ClienteValidators.rg_numeric(attrs['rg']):
+            raise serializers.ValidationError({
+                'rg': 'O RG só pode conter números.'
+            })
+
+        if not ClienteValidators.rg_valid(attrs['rg']):
+            raise serializers.ValidationError({
+                'rg': 'O RG deve conter 11 dígitos.'
+            })
+
+        if not ClienteValidators.celular_numeric(attrs['celular']):
+            raise serializers.ValidationError({
+                'celular': 'O celular só pode conter números.'
+            })
+
+        if not ClienteValidators.celular_valid(attrs['celular']):
+            raise serializers.ValidationError({
+                'celular': 'O celular deve conter 11 dígitos.'
+            })
+
+        return attrs
