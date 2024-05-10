@@ -4,20 +4,26 @@ from validate_docbr import CPF
 
 
 class ClienteValidators:
+    """ Classe para validações de dados do modelo de clientes """
+
     @staticmethod
     def cpf_valid(numero_cpf):
+        """ Valida se o CPF é válido """
         return CPF().validate(numero_cpf)
 
     @staticmethod
     def nome_valid(nome):
+        """ Valida se o nome é alfanumérico """
         return nome.isalpha()
 
     @staticmethod
     def rg_numeric(rg):
+        """ Valida se o RG possui apenas números """
         return rg.isdigit()
 
     @staticmethod
     def rg_valid(rg):
+        """ Valida se o RG tem 11 dígitos """
         return len(rg) == 11
 
     @staticmethod
