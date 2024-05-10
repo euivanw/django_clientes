@@ -1,12 +1,14 @@
-class ClienteValidators:
+import re
 
+
+class ClienteValidators:
     @staticmethod
     def cpf_numeric(cpf):
         return cpf.isdigit()
 
     @staticmethod
     def cpf_valid(cpf):
-        return len(cpf) == 11
+        return len(cpf) >= 11
 
     @staticmethod
     def nome_valid(nome):
@@ -21,9 +23,8 @@ class ClienteValidators:
         return len(rg) == 11
 
     @staticmethod
-    def celular_numeric(celular):
-        return celular.isdigit()
+    def celular_format(celular):
+        """ Valida se o formato do celular é 11 99999-9999 """
+        expressao = r'[\d]{2} [\d]{5}-[\d]{4}'
 
-    @staticmethod
-    def celular_valid(celular):
-        return len(celular) == 11
+        return re.findall(expressao, celular)

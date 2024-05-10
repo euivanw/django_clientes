@@ -35,14 +35,9 @@ class ClienteSerializer(serializers.ModelSerializer):
                 'rg': 'O RG deve conter 11 dígitos.'
             })
 
-        if not ClienteValidators.celular_numeric(attrs['celular']):
+        if not ClienteValidators.celular_format(attrs['celular']):
             raise serializers.ValidationError({
-                'celular': 'O celular só pode conter números.'
-            })
-
-        if not ClienteValidators.celular_valid(attrs['celular']):
-            raise serializers.ValidationError({
-                'celular': 'O celular deve conter 11 dígitos.'
+                'celular': 'O celular deve estar no formato 11 98765-1234.'
             })
 
         return attrs
